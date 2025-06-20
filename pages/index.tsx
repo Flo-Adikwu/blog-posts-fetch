@@ -1,11 +1,30 @@
 import { getAllPosts, Post } from "@/lib/api";
-import React from "react";
+import { useLoadingStore } from "@/store/useLoadingStore";
+import React, { useEffect, useState } from "react";
 
 type Props = {
   posts: Post[];
 };
 
-export default function Posts({ posts }: Props) {
+export default function Posts() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const setLoading = useLoadingStore((s) => s.setLoading);
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      setLoading(true);
+
+      try {
+        const data = await getAllPosts();
+        setPosts(data.slice(0, 20)); //Limit of 20
+      } catch (error) {
+        console.log("failed to fetch posts", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPosts();
+  }, []);
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">POSTS</h1>
@@ -38,16 +57,7 @@ export default function Posts({ posts }: Props) {
           {}
         </ul>
       </div>
-      <h4>Comments</h4>
+      {/* <h4>Comments</h4> */}
     </div>
   );
-}
-//prerender all posts at build time
-export async function getStaticProps() {
-  const posts = await getAllPosts();
-  return {
-    props: {
-      posts: posts.slice(0, 20),
-    },
-  };
 }
