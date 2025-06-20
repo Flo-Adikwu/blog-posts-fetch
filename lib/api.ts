@@ -30,6 +30,7 @@ export async function getAllPosts(): Promise<Post[]> {
   return data.posts;
 }
 
+//fetch comments and comment count
 export async function getCommentsCount(postId: number): Promise<{comments:Comment[], total:number}> {
   const { data } = await axios.get(`${BASE_URL}/comments/post/${postId}`);
   return {

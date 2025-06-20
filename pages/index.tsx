@@ -2,12 +2,15 @@ import { Comment, getAllPosts, getCommentsCount, Post } from "@/lib/api";
 import { useLoadingStore } from "@/store/useLoadingStore";
 import React, { useEffect, useState } from "react";
 
+//// Combines the original Post with extra fields for comments and their total count
 type PostAndComment = Post & { commentCount: number; comments: Comment[] };
 
 export default function Posts() {
   const [posts, setPosts] = useState<PostAndComment[]>([]);
   const setLoading = useLoadingStore((s) => s.setLoading);
 
+  //// On initial render, fetch posts and their related comments,
+  // then update the global loading state
   useEffect(() => {
     const loadPosts = async () => {
       setLoading(true);
@@ -16,6 +19,8 @@ export default function Posts() {
         const data = await getAllPosts();
         const sliced = data.slice(0, 20); //Limit of 20
 
+        // Fetch comments and their count for each post,
+        // and attach them to the post object for display.
         const postAndCommentCount = await Promise.all(
           sliced.map(async (post) => {
             const { comments, total } = await getCommentsCount(post.id);
@@ -31,6 +36,7 @@ export default function Posts() {
     };
     loadPosts();
   }, []);
+
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">🔥 TRENDING</h1>
@@ -49,6 +55,8 @@ export default function Posts() {
               {post.tags.map((tag) => (
                 <small className="font-bold mr-3 text-red-500">{tag}</small>
               ))}
+
+              {/* display tags */}
               <div className="flex font-bold mt-3">
                 <span className="inline-flex items-center rounded-md mr-3 bg-gray-200 px-2 py-1 text-xs ">
                   {`👀: ${post.views}`}
@@ -64,6 +72,7 @@ export default function Posts() {
                 </span>
               </div>
 
+              {/* display comments */}
               {post.comments.length > 0 && (
                 <div className="bg-white p-3 mt-4 rounded shadow-sm">
                   <p className="font-semibold text-sm mb-2">Comments:</p>
@@ -84,29 +93,6 @@ export default function Posts() {
           {}
         </ul>
       </div>
-      {/* <h4>Comments</h4> */}
     </div>
   );
 }
-// useEffect(() => {
-//   const loadPosts = async () => {
-//     setLoading(true);
-
-//     try {
-//       const data = await getAllPosts();
-//       const sliced = data.slice(0, 20);
-//       const postAndCommentCount = () => {
-//         sliced.map((post) => {
-//           const count = getCommentsById(post.id);
-//           return { ...post, count };
-//         });
-//       };
-//       setPosts(postAndCommentCount);
-//     } catch (error) {
-//       console.log("failed to fetch posts", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-//   loadPosts();
-// }, []);
