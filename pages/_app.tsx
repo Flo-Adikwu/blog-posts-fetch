@@ -5,8 +5,10 @@ import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
   const isLoading = useLoadingStore((s) => s.isLoading);
-  {
-    isLoading && <Loading />;
-  }
-  return <Component {...pageProps} />;
+  return (
+    <>
+      {isLoading && <Loading />}
+      <Component {...pageProps} />
+    </>
+  );
 }
