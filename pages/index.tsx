@@ -33,7 +33,7 @@ export default function Posts() {
   }, []);
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">POSTS</h1>
+      <h1 className="text-3xl font-bold mb-6">🔥 TRENDING</h1>
       <div>
         {" "}
         <ul className="space-y-4">
@@ -65,13 +65,19 @@ export default function Posts() {
               </div>
 
               {post.comments.length > 0 && (
-                <ul>
-                  {post.comments.map((comment) => (
-                    <li>
-                      <p>{comment.body}</p>
-                    </li>
-                  ))}
-                </ul>
+                <div className="bg-white p-3 mt-4 rounded shadow-sm">
+                  <p className="font-semibold text-sm mb-2">Comments:</p>
+                  <ul className="space-y-2 text-sm">
+                    {post.comments.map((comment) => (
+                      <li key={post.id} className="pb-1">
+                        <p>👤 {comment.body}</p>
+                        <p className="text-xs text-gray-500 italic">
+                          -{comment.user.fullName}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
             </li>
           ))}

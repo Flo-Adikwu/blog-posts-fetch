@@ -16,6 +16,9 @@ export type Post = {
 export type Comment = {
   id?: number;
   body: string;
+  user:{
+    fullName: string;
+  }
 };
 
 //Base URL
