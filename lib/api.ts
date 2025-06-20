@@ -2,35 +2,41 @@
 import axios from "axios";
 
 export type Post = {
-    id: number;
-    title: string;
-    body: string;
-    tags:[];
-    views: string;
-    reactions:{
-        likes: number;
-        disliked: number;
-    }
-}
+  id: number;
+  title: string;
+  body: string;
+  tags: [];
+  views: number;
+  reactions: {
+    likes: number;
+    dislikes: number;
+  };
+};
 
 export type Comment = {
+  id: number;
+  body: string;
+  postId: number;
+  likes: number;
+  user: {
     id: number;
-    title: string;
-    body: string;
-}
+    username: string;
+    fullName: string;
+  };
+};
 
 //Base URL
 const BASE_URL = "https://dummyjson.com";
 
 //fetch all posts
-export async function getAllPosts(): Promise<Post[]>{
-    const {data} = await axios.get(`${BASE_URL}/posts`);
-    return data.posts;
+export async function getAllPosts(): Promise<Post[]> {
+  const { data } = await axios.get(`${BASE_URL}/posts`);
+  return data.posts;
 }
 
-export async function getAllComments(): Promise<Comment[]>{
-    const {data} = await axios.get(`${BASE_URL}/comments`);
-    return data.comments;
+export async function getCommentsById(postId: Post): Promise<Comment[]> {
+  const { data } = await axios.get(`${BASE_URL}/comments/${postId.id}`);
+  return data.comments;
 }
 // Natale Catella
 // 1:04 PM
@@ -43,6 +49,7 @@ export async function getAllComments(): Promise<Comment[]>{
 // Fetch and display the comments count for each post
 // Natale Catella
 // 1:57 PM
+
 // Global Loading Indicator
 // Implement a loading indicator that is display while any data is being fetched
 // The loading indicator should remain visible until all posts and all comments have been fully loaded.
