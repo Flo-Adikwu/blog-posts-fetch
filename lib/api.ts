@@ -14,15 +14,8 @@ export type Post = {
 };
 
 export type Comment = {
-  id: number;
+  id?: number;
   body: string;
-  postId: number;
-  likes: number;
-  user: {
-    id: number;
-    username: string;
-    fullName: string;
-  };
 };
 
 //Base URL
@@ -34,12 +27,14 @@ export async function getAllPosts(): Promise<Post[]> {
   return data.posts;
 }
 
-export async function getCommentsById(postId: Post): Promise<Comment[]> {
-  const { data } = await axios.get(`${BASE_URL}/comments/${postId.id}`);
-  return data.comments;
+export async function getCommentsCount(postId: number): Promise<{comments:Comment[], total:number}> {
+  const { data } = await axios.get(`${BASE_URL}/comments/post/${postId}`);
+  return {
+    comments: data.comments,
+    total: data.total
 }
-// Natale Catella
-// 1:04 PM
+}
+
 // Basics
 // Use the endpoints in https://dummyjson.com/docs/posts and/or https://dummyjson.com/docs/comments for your API requests.
 // Display a list of 20 posts from the provided API
@@ -47,8 +42,6 @@ export async function getCommentsById(postId: Post): Promise<Comment[]> {
 
 // Comments Basics
 // Fetch and display the comments count for each post
-// Natale Catella
-// 1:57 PM
 
 // Global Loading Indicator
 // Implement a loading indicator that is display while any data is being fetched
