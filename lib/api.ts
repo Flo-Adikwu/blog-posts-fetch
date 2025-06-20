@@ -5,6 +5,18 @@ export type Post = {
     id: number;
     title: string;
     body: string;
+    tags:[];
+    views: string;
+    reactions:{
+        likes: number;
+        disliked: number;
+    }
+}
+
+export type Comment = {
+    id: number;
+    title: string;
+    body: string;
 }
 
 //Base URL
@@ -14,6 +26,11 @@ const BASE_URL = "https://dummyjson.com";
 export async function getAllPosts(): Promise<Post[]>{
     const {data} = await axios.get(`${BASE_URL}/posts`);
     return data.posts;
+}
+
+export async function getAllComments(): Promise<Comment[]>{
+    const {data} = await axios.get(`${BASE_URL}/comments`);
+    return data.comments;
 }
 // Natale Catella
 // 1:04 PM
