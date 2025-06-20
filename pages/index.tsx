@@ -43,13 +43,13 @@ export default function Posts() {
               ))}
               <div className="flex font-bold">
                 <span className="inline-flex items-center rounded-md mr-3 bg-gray-50 px-2 py-1 text-xs ">
-                  {`Views:${post.views}`}
+                  {`👀: ${post.views}`}
                 </span>
                 <span className="inline-flex items-center mr-3 rounded-md bg-green-200 px-2 py-1 text-xs ">
-                  {`Likes:${post.reactions.likes}`}
+                  {`👍🏼: ${post.reactions.likes}`}
                 </span>
                 <span className="inline-flex items-center mr-3 rounded-md bg-red-200 px-2 py-1 text-xs ">
-                  {`Dislikes:${post.reactions.dislikes}`}
+                  {`👎🏼: ${post.reactions.dislikes}`}
                 </span>
               </div>
             </li>
